@@ -1,4 +1,4 @@
-"""Usage: print.py [--add] [--revert] [--file=str] CLASS
+"""Usage: print.py [--add] [--revert] [--revert-nosave] [--file=str] CLASS
 
 
 Arguments:
@@ -8,6 +8,7 @@ Arguments:
 Options:
     --add  create a new version
     --revert  go back a version
+    --revert-nosave  go back a version and don't save current version.
 """
 
 # Docopt is a library for parsing command line arguments
@@ -51,7 +52,7 @@ if __name__ == '__main__':
                 print "Old Version Saved!"
 
                 
-        if(arguments['--revert'] == True and len(classes) > 0):
+        if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
             if(len(f) == 0):
                 f = "style.css"
             if ("." + classes) in open(f, 'r').read():
@@ -80,11 +81,13 @@ if __name__ == '__main__':
                 
                 replace = open(f, 'w')
                 replace.write(new_replacement_file)
+                if(arguments['--revert'] == True):
+                    ceylon = open('ceylon.css', 'a')
+                    ceylon.write("\n")
+                    ceylon.write("\n")
+                    ceylon.write(complete_class)
 
-                ceylon = open('ceylon.css', 'a')
-                ceylon.write("\n")
-                ceylon.write("\n")
-                ceylon.write(complete_class)
+
         
         key = ''
                 
