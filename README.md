@@ -9,7 +9,7 @@ What is Ceylon good for:
 - Products where swapping between UI interfaces is often and Git flows get too complicated. 
 
 
-Currently, Ceylon is a python file that does all the version control.  Ceylon is a work in progress in that I am working on creating a package that let's you interact with the program by simply calling `ceylon` insead of `python celyon.py`  
+Currently, Ceylon is a python file that does all the version control.  Ceylon is a work in progress in that I am working on creating a package that let's you interact with the program by simply calling `ceylon` insead of `python ceylon.py`  
 
 ### Stating a File. 
 By default, Ceylon assumes the file that it is operating on is named `style.css`.  However, you may have other .css files to edit.  To declare the file you are working on, simply go `--file=your_css_file.css`
