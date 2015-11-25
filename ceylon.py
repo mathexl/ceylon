@@ -1,4 +1,4 @@
-"""Usage: print.py [--create=str] [--add] [--revert] [--revert-nosave] [--hash=str] [--file=str]  [CLASS]
+"""Usage: print.py [--create=str] [--add] [--version=str] [--revert] [--revert-nosave] [--hash=str] [--file=str]  [CLASS]
 
 
 Arguments:
@@ -35,7 +35,7 @@ if __name__ == '__main__':
             ceylon.write("\n")
             ceylon.write("/**** END[" + str(version_name) + "] ****/")
 
-            print "Version Created" 
+            print "Version Created::" +  str(version_name)
         
         
         f = arguments['--file']
@@ -58,10 +58,29 @@ if __name__ == '__main__':
                 
                 complete_class = str(newclass) + " " + str(content)
                 
-                ceylon = open('ceylon.css', 'a')
-                ceylon.write("\n")
-                ceylon.write("\n")
-                ceylon.write(complete_class)
+                
+                if(arguments['--version'] == None):
+                    ceylon = open('ceylon.css', 'a')
+                    ceylon.write("\n")
+                    ceylon.write("\n")
+                    ceylon.write(complete_class)
+                else:
+                    ceylon = open('ceylon.css', 'r').read()
+                    insertion_point = ceylon.find("/**** END[" + str(arguments['--version']) + "]")
+                    
+                    new_file = ceylon[0:insertion_point]
+                    new_ceylon = open('ceylon.css', 'w')
+                    new_ceylon.write(new_file)
+                    new_ceylon.close()
+                    
+                    insert_ceylon = open('ceylon.css', 'a')
+                    insert_ceylon.write("\n")
+                    insert_ceylon.write("\n")
+                    insert_ceylon.write(complete_class)
+                    insert_ceylon.write("\n")
+                    insert_ceylon.write("\n")
+                    insert_ceylon.write(ceylon[insertion_point:])
+                    
             
                 print "Version Saved::" + str(timestamp)
 
