@@ -44,3 +44,16 @@ In the saved ```ceylon.css``` file, you will see the following class:
 ```
 Where TIMESTAMP would just be the UNIX timestamp when the class was created. 
 
+### Roll Back to the Last Version of the Class
+
+If you wanted to roll back to the immediately last version of the class, simply call in terminal:
+
+```
+python ceylon.py --revert cool_class --file=home.css
+```
+
+By doing this, your `home.css` file will be modified with the old version.  Further, this command will auto-add the current version of the class for safe keeping as the last version.  If you want to suppress the auto addition of the current version, call `--revert-nosave` instead of `--revert`. So: 
+
+```
+python ceylon.py --revert-nosave cool_class --file=home.css
+```
