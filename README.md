@@ -11,6 +11,10 @@ What is Ceylon good for:
 
 Currently, Ceylon is a python file that does all the version control.  Ceylon is a work in progress in that I am working on creating a package that let's you interact with the program by simply calling `ceylon` insead of `python ceylon.py`  
 
+Ceylon currently is built on the `docopt` module (however, there is a module free package in the works).  Before running Ceylon, be sure to install `docopt`.  You can use pip, and go:
+
+`pip install docopt`
+
 ### Stating a File. 
 By default, Ceylon assumes the file that it is operating on is named `style.css`.  However, you may have other .css files to edit.  To declare the file you are working on, simply go `--file=your_css_file.css`
 
