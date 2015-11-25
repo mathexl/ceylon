@@ -4,9 +4,10 @@
 Arguments:
     Class to be versioned. 
 
+
 Options:
     --add  create a new version
-    --revert go back a version
+    --revert  go back a version
 """
 
 # Docopt is a library for parsing command line arguments
