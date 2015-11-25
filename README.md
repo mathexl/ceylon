@@ -1,7 +1,7 @@
 # ceylon
 Micro-Version Control for CSS
 
-#### Ceylon is micro asynchronous version control for CSS.  Ceylon isn't a replacement for Git or Subversion; rather, it is an indepedent way for you to have strong, readable, and CSS-oriented version control for your styles.  Ceylon lets you save previous versions of individual classes in CSS opposed to the entire file.  It is asynchronous in that you can name certain versions of a style set but add classes attached to that style set whenever you want. 
+*Ceylon is micro asynchronous version control for CSS.  Ceylon isn't a replacement for Git or Subversion; rather, it is an indepedent way for you to have strong, readable, and CSS-oriented version control for your styles.  Ceylon lets you save previous versions of individual classes in CSS opposed to the entire file.  It is asynchronous in that you can name certain versions of a style set but add classes attached to that style set whenever you want.  Further, since Ceylon saves its data in a seperate .css file, it doesn't conflict with the git flow and can function independently of it*
 
 What is Ceylon good for:
 - Large CSS files with multiple developers
