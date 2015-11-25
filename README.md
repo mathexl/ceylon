@@ -26,7 +26,7 @@ Ceylon saves all its data in a file called `ceylon.css`.  You can see all the sa
 }
 ```
 
-You would call in terminal:
+You would call in terminal (order does not matter):
 
 ```
 python ceylon.py --add cool_class --file=home.css
