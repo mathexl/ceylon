@@ -1,4 +1,4 @@
-"""Usage: print.py [--create=str] [--add] [--version=str] [--revert] [--revert-nosave] [--hash=str] [--file=str]  [CLASS]
+"""Usage: print.py [--create=str] [--add] [--version=str] [--rollback=str] [--revert] [--revert-nosave] [--hash=str] [--file=str]  [CLASS]
 
 
 Arguments:
@@ -84,6 +84,31 @@ if __name__ == '__main__':
             
                 print "Version Saved::" + str(timestamp)
 
+        if(arguments['--rollback'] != None):
+            ceylon = open('ceylon.css', 'r').read()
+            start_point = ceylon.find("/**** [" + str(arguments['--rollback']) + "]")
+            end_point = ceylon.find("/**** END[" + str(arguments['--rollback']) + "]")
+            
+            
+            
+            search_point = start_point
+            while(search_point < end_point):
+                new_class_begin = ceylon.find(".",search_point)
+                check_next = ceylon[new_class_begin+1:new_class_begin+2] #check if its a class opposed to a number
+                
+                if(check_next.isalpha() == False):
+                    continue #skip if its a nonclass but an int
+                
+                if(new_class_begin == -1):
+                    search_point = end_point
+                    continue
+                else:
+                    search_point = new_class_begin + 1
+            
+            
+            
+
+                
                 
         if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
             if(len(f) == 0):
