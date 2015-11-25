@@ -57,3 +57,33 @@ By doing this, your `home.css` file will be modified with the old version.  Furt
 ```
 python ceylon.py --revert-nosave cool_class --file=home.css
 ```
+
+### Create Static Versions
+
+Sometimes when you are trying new styles, you are adding consistent changes and new looks to multiple elements.  Ceylon has static versioning to adapt to that. You can declare a version that is composite of a group of classes which can be added at different points of time and later rollback to that complete version of the file.  To create a version, simply call `--create=YOUR_VERSION_NAME` in terminal, with YOUR_VERSION_NAME being the static version (one word).  So (assuming you are working within `style.css` this time):
+
+```
+python ceylon.py --create=old_metro_style
+```
+
+Then, let's say you are about to change a class. You can add it to this version by adding `--version=VERSION_TO_ADD_TO` on the file: 
+
+```
+python ceylon.py --add cool_class --version=old_metro_style
+```
+In the Ceylon.css file, we will see all the versions grouped together with something like this: 
+
+```CSS
+
+/**** [old_metro_style] ****/
+
+.cool_class_c_TIMESTAMP {
+    color:yellow;
+    position:relative;
+    width:100%;
+    background:none;
+}
+
+/**** END[old_metro_style] ****/
+
+```
