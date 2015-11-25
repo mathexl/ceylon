@@ -1,4 +1,4 @@
-"""Usage: print.py [--add] [--revert] [--revert-nosave] [--file=str] CLASS
+"""Usage: print.py [--create=str] [--add] [--revert] [--revert-nosave] [--hash=str] [--file=str]  [CLASS]
 
 
 Arguments:
@@ -24,8 +24,22 @@ if __name__ == '__main__':
         
         
         classes = arguments['CLASS']
-        f = arguments['--file']
         
+        if(arguments['--create'] != None):
+            version_name = arguments['--create']
+            ceylon = open('ceylon.css', 'a')
+            ceylon.write("\n")
+            ceylon.write("\n")
+            ceylon.write("/**** [" + str(version_name) + "] ****/")
+            ceylon.write("\n")
+            ceylon.write("\n")
+            ceylon.write("/**** END[" + str(version_name) + "] ****/")
+
+            print "Version Created" 
+        
+        
+        f = arguments['--file']
+
         
         if(arguments['--add'] == True and len(classes) > 0):
             if(len(f) == 0):
@@ -49,7 +63,7 @@ if __name__ == '__main__':
                 ceylon.write("\n")
                 ceylon.write(complete_class)
             
-                print "Old Version Saved!"
+                print "Version Saved::" + str(timestamp)
 
                 
         if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
@@ -68,9 +82,13 @@ if __name__ == '__main__':
                 content =  phile[class_content_start:class_end+1]
                 complete_class = str(newclass) + " " + str(content)
                 
-                
                 ceylon = open('ceylon.css', 'r').read()
-                cey_class_start = ceylon.rfind(("." + classes + "_c_"))
+                
+                if(arguments['--hash'] == None):
+                    cey_class_start = ceylon.rfind(("." + classes + "_c_"))
+                else:
+                    cey_class_start = ceylon.find(("." + classes + "_c_" + str(arguments['--hash'])))
+
                 cey_class_content_start = ceylon.find("{", cey_class_start)
                 cey_class_end = ceylon.find("}", cey_class_content_start)
                 cey_content =  ceylon[cey_class_content_start:cey_class_end+1]
