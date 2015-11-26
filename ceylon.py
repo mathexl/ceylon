@@ -11,7 +11,7 @@ import time
 
 
 ############################
-#Global Arguments 
+#Global Variables 
 global arguments
 global all_classes 
 global f #file variable
@@ -142,7 +142,7 @@ def revert(f,classes,r_string = "False"):
         complete_class = str(newclass) + " " + str(content)
 
         if(r_string == "False"):
-            ceylon = open('ceylon.css', 'r').read()
+            ceylon = open('ceylon/ceylon.css', 'r').read()
 
             if(arguments['--hash'] == None):
                 cey_class_start = ceylon.rfind((flag + classes + "_c_"))
@@ -163,7 +163,7 @@ def revert(f,classes,r_string = "False"):
         replace.write(new_replacement_file)
 
         if(arguments['--revert'] == True):
-            ceylon = open('ceylon.css', 'a')
+            ceylon = open('ceylon/ceylon.css', 'a')
             ceylon.write("\n")
             ceylon.write("\n")
             ceylon.write(complete_class)    
@@ -192,7 +192,7 @@ if __name__ == '__main__':
         
         if(arguments['--create'] != None):
             version_name = arguments['--create']
-            ceylon = open('ceylon.css', 'a')
+            ceylon = open('ceylon/ceylon.css', 'a')
             ceylon.write("\n")
             ceylon.write("\n")
             ceylon.write("/**** [" + str(version_name) + "] ****/")
@@ -204,7 +204,7 @@ if __name__ == '__main__':
         
 
         if(arguments['--rollback'] != None):
-            ceylon = open('ceylon.css', 'r').read()
+            ceylon = open('ceylon/ceylon.css', 'r').read()
             start_point = ceylon.find("/**** [" + str(arguments['--rollback']) + "]")
             end_point = ceylon.find("/**** END[" + str(arguments['--rollback']) + "]")
 
@@ -246,7 +246,7 @@ if __name__ == '__main__':
                 search_point = end_bracket
 
             #new look checking for attributes
-            ceylon = open('ceylon.css', 'r').read()
+            ceylon = open('ceylon/ceylon.css', 'r').read()
             start_point = ceylon.find("/**** [" + str(arguments['--rollback']) + "]")
             end_point = ceylon.find("/**** END[" + str(arguments['--rollback']) + "]")
 
@@ -320,20 +320,20 @@ if __name__ == '__main__':
                                     complete_class = "[--tag]" + complete_class
 
                                 if(arguments['--version'] == None):
-                                    ceylon = open('ceylon.css', 'a')
+                                    ceylon = open('ceylon/ceylon.css', 'a')
                                     ceylon.write("\n")
                                     ceylon.write("\n")
                                     ceylon.write(complete_class)
                                 else:
-                                    ceylon = open('ceylon.css', 'r').read()
+                                    ceylon = open('ceylon/ceylon.css', 'r').read()
                                     insertion_point = ceylon.find("/**** END[" + str(arguments['--version']) + "]")
 
                                     new_file = ceylon[0:insertion_point]
-                                    new_ceylon = open('ceylon.css', 'w')
+                                    new_ceylon = open('ceylon/ceylon.css', 'w')
                                     new_ceylon.write(new_file)
                                     new_ceylon.close()
 
-                                    insert_ceylon = open('ceylon.css', 'a')
+                                    insert_ceylon = open('ceylon/ceylon.css', 'a')
                                     insert_ceylon.write("\n")
                                     insert_ceylon.write("\n")
                                     insert_ceylon.write(complete_class)
