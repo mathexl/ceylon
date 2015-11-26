@@ -1,38 +1,11 @@
-
-.grape .tangerine {
-    color: orange;
+.grape {
+    color:blue
 }
 
-.lemon {
-    color:yellow;
-    position:relative;
-    width:100%;
-    background:none;
-    test_control
-    test_2
-
+.orange {
+    color:aliceblue;
 }
 
-
-hr{
-    color:pink;
-    
-}
-
-.grape .tangerine {
-    color:black;
-}
-
-.tangerine .grape {
-    color:black;
-}
-
-
-@media screen and (max-width:500px){
-    .orange {
-        color:orange;
-        test_control
-        test_2
-
-    }
+hr {
+    color:aquamarine;
 }

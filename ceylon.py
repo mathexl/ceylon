@@ -58,7 +58,8 @@ if __name__ == '__main__':
             #print "in here" 
             #print find_next_space
             #print class_content_start
-
+            
+            
             if(file_string[find_next_space:class_content_start].isspace() == False and find_next_space != -1 and find_next_space < class_content_start):
                 return False;
             
@@ -159,7 +160,7 @@ if __name__ == '__main__':
                 
                 
                 while(class_start != -1):
-                    class_start = phile.find((period_extra + classes), class_start + 1)
+                    class_start = phile.find((period_extra + classes), class_start)
 
                     if(class_start == -1):
                         break;
@@ -203,6 +204,7 @@ if __name__ == '__main__':
                             insert_ceylon.write(ceylon[insertion_point:])
                     
                         print("Version Saved::" + str(timestamp))
+                    class_start = class_start + 1
                 if(output == False):
                     print("Error::Cannot Find Class")
 
@@ -215,14 +217,17 @@ if __name__ == '__main__':
             
             search_point = start_point
             while(search_point < end_point):
-                new_class_begin = ceylon.find(period_extra,search_point)
+                new_class_begin = ceylon.find(".",search_point)
+                
+                if(new_class_begin == -1): #no more classes exist
+                    search_point = end_point
+                    break
+                    
                 class_name_end = ceylon.find("_c_",new_class_begin)
 
                 check_next = ceylon[new_class_begin+1:new_class_begin+2] #check if its a class opposed to a number
 
-                if(new_class_begin == -1): #no more classes exist
-                    search_point = end_point
-                    break
+
                     
                 if(new_class_begin > end_point): #past the ending point
                     search_point = end_point
@@ -245,7 +250,45 @@ if __name__ == '__main__':
 
                 search_point = end_bracket
             
+            #new look checking for attributes
+            ceylon = open('ceylon.css', 'r').read()
+            start_point = ceylon.find("/**** [" + str(arguments['--rollback']) + "]")
+            end_point = ceylon.find("/**** END[" + str(arguments['--rollback']) + "]")
+            
+            
+    
+            search_point = start_point
+            period_extra = ""
+            while(search_point < end_point):
+                new_class_begin = ceylon.find("[--tag]",search_point)
+                
+                if(new_class_begin == -1): #no more classes exist
+                    search_point = end_point
+                    break
+                    
+                class_name_end = ceylon.find("_c_",new_class_begin)
 
+                check_next = ceylon[new_class_begin+1:new_class_begin+2] #check if its a class opposed to a number
+
+
+                    
+                if(new_class_begin > end_point): #past the ending point
+                    search_point = end_point
+                    break
+                
+
+            
+                first_bracket = ceylon.find("{",new_class_begin)
+                end_bracket = ceylon.find("}",first_bracket+1)
+
+                class_name = ceylon[new_class_begin + 7:class_name_end]
+                
+                #print str(first_bracket) + " | " + str(end_bracket)
+                new_class = class_name + " " + ceylon[first_bracket:end_bracket+1]
+                print("Rolled Back::" + str(class_name))
+                revert(f,class_name,new_class)
+
+                search_point = end_bracket
                 
                 
         if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
