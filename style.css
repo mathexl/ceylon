@@ -1,9 +1,17 @@
 
-
-.lemon_c_1448505863 {
+.lemon {
     color:yellow;
     position:relative;
     width:100%;
     background:none;
     test_control
+}
+
+.orange {
+    color:orange;
+    test_control
+}
+
+.grape .tangerine {
+    color:black;
 }

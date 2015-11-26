@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
         arguments = docopt.docopt(__doc__)
         f = arguments['--file']
-        if(len(f) == 0):
+        if(arguments['--file'] == None):
             f = "style.css"        
         
         classes = arguments['CLASS']
