@@ -1,4 +1,4 @@
-"""Usage: print.py [--create=str] [--add] [--tag] [--version=str] [--rollback=str] [--revert] [--revert-nosave] [--hash=str] [--file=str]  [CLASS]
+"""Usage: print.py      [CLASS]
 
 
 Arguments:
@@ -17,23 +17,69 @@ Options:
 #If you have any questions, feel free to contact Mathew Pregasen at mathexl@gmail.com
 
 # Docopt is a library for parsing command line arguments
-import docopt
+import sys
 import time
+
+global arguments
+
+arguments = {};
+args_list = list();
+args_list = sys.argv;
+arguments['--add'] = False
+arguments['--revert'] = False
+arguments['--revert-nosave'] = False
+arguments['--tag'] = False
+arguments['--create'] = None
+arguments['--version'] = None
+arguments['--rollback'] = None
+arguments['--hash'] = None
+arguments['--file'] = None
+
+
+for i in args_list:
+    if(i == '--add'):
+        arguments['--add'] = True
+    if(i == '--revert'):
+        arguments['--revert'] = True
+    if(i == '--revert-nosave'):
+        arguments['--revert-nosave'] = True
+    if(i == '--tag'):
+        arguments['--tag'] = True
+        
+        
+    # the main args above
+    if(i[0:9] == '--create='):
+        arguments['--create'] = i[9:]  
+    
+    if(i[0:10] == '--version='):
+        arguments['--version'] = i[10:]  
+        
+    if(i[0:11] == '--rollback='):
+        arguments['--rollback'] = i[11:]  
+        
+    if(i[0:7] == '--hash='):
+        arguments['--hash'] = i[7:]  
+        
+    if(i[0:7] == '--file='):
+        arguments['--file'] = i[7:]  
+
+if(len(sys.argv) > 2):
+    global classes
+    classes = sys.argv[2]
 
 if __name__ == '__main__':
 
     try:
         # Parse arguments, use file docstring as a parameter definition
-        global arguments
         global f
         global period_extra
 
-        arguments = docopt.docopt(__doc__)
+        
         f = arguments['--file']
+
         if(arguments['--file'] == None):
             f = "style.css"        
         
-        classes = arguments['CLASS']
         
         if(arguments['--tag'] == True):
             period_extra = ""
@@ -299,6 +345,5 @@ if __name__ == '__main__':
         key = ''
                 
                 
-    except docopt.DocoptExit as e:
-        print(e.message)
-  
+    except ValueError:
+        print("Error")
