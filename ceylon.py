@@ -88,8 +88,7 @@ if __name__ == '__main__':
 
         
         if(arguments['--add'] == True and len(classes) > 0):
-            if(len(f) == 0):
-                f = "style.css"
+
             if ("." + classes) in open(f, 'r').read():
                 
                 phile = open(f, 'r').read()
