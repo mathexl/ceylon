@@ -1,17 +1,3 @@
-"""Usage: print.py      [CLASS]
-
-
-Arguments:
-    Class to be versioned. 
-
-
-Options:
-    --add  create a new version
-    --revert  go back a version
-    --revert-nosave  go back a version and don't save current version.
-    --tag  it is a tag
-"""
-
 #Ceylon is micro version control
 #Still a Work in Progress - feel free to hack around with it but DO NOT use in production YET. 
 #If you have any questions, feel free to contact Mathew Pregasen at mathexl@gmail.com
