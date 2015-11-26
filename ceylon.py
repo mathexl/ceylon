@@ -1,4 +1,4 @@
-"""Usage: print.py [--create=str] [--add] [--version=str] [--rollback=str] [--revert] [--revert-nosave] [--hash=str] [--file=str]  [CLASS]
+"""Usage: print.py [--create=str] [--add] [--tag] [--version=str] [--rollback=str] [--revert] [--revert-nosave] [--hash=str] [--file=str]  [CLASS]
 
 
 Arguments:
@@ -9,6 +9,7 @@ Options:
     --add  create a new version
     --revert  go back a version
     --revert-nosave  go back a version and don't save current version.
+    --tag  it is a tag
 """
 
 #Ceylon is micro version control
@@ -25,6 +26,7 @@ if __name__ == '__main__':
         # Parse arguments, use file docstring as a parameter definition
         global arguments
         global f
+        global period_extra
 
         arguments = docopt.docopt(__doc__)
         f = arguments['--file']
@@ -32,9 +34,16 @@ if __name__ == '__main__':
             f = "style.css"        
         
         classes = arguments['CLASS']
-
+        
+        if(arguments['--tag'] == True):
+            period_extra = ""
+        else:
+            period_extra = "."
+            
+            
         def legitimate_class(file_string,location):
             class_content_start = file_string.find("{", location)
+
             #print file_string[location:class_content_start]
             #check for the last preceding }
             
@@ -45,7 +54,8 @@ if __name__ == '__main__':
             #print file_string[find_next_space:class_content_start]
             
             #checks if there are any selectors ahead of class
-            if(file_string[find_next_space:class_content_start].isspace() == False):
+            
+            if(file_string[find_next_space:class_content_start].isspace() == False and find_next_space != -1):
                 return False;
             
 
@@ -83,15 +93,13 @@ if __name__ == '__main__':
             return True;
         
         def revert(f,classes,r_string = "False"):
-            if(len(str(f)) == 0):
-                f = "style.css"
-            if ("." + classes) in open(f, 'r').read():
+            if (period_extra + classes) in open(f, 'r').read():
                 phile = open(f, 'r').read()
-                class_start = phile.find(("." + classes))
+                class_start = phile.find((period_extra + classes))
                 class_content_start = phile.find("{", class_start)
                 class_end = phile.find("}", class_content_start)
                 timestamp = int(time.time())
-                newclass = "." + str(classes) + str("_c_") + str(timestamp)
+                newclass = period_extra + str(classes) + str("_c_") + str(timestamp)
                 content =  phile[class_content_start:class_end+1]
                 complete_class = str(newclass) + " " + str(content)
                 
@@ -99,15 +107,15 @@ if __name__ == '__main__':
                     ceylon = open('ceylon.css', 'r').read()
 
                     if(arguments['--hash'] == None):
-                        cey_class_start = ceylon.rfind(("." + classes + "_c_"))
+                        cey_class_start = ceylon.rfind((period_extra + classes + "_c_"))
                     else:
-                        cey_class_start = ceylon.find(("." + classes + "_c_" + str(arguments['--hash'])))
+                        cey_class_start = ceylon.find((period_extra + classes + "_c_" + str(arguments['--hash'])))
 
                     cey_class_content_start = ceylon.find("{", cey_class_start)
                     cey_class_end = ceylon.find("}", cey_class_content_start)
                     cey_content =  ceylon[cey_class_content_start:cey_class_end+1]
 
-                    rc = "." + str(classes) + cey_content
+                    rc = period_extra + str(classes) + cey_content
                 else:
                     rc = r_string
                     
@@ -137,23 +145,30 @@ if __name__ == '__main__':
 
         
         if(arguments['--add'] == True and len(classes) > 0):
-
-            if ("." + classes) in open(f, 'r').read():
-                
+            if (classes) in open(f, 'r').read():
                 phile = open(f, 'r').read()
                 
                 check_for_space_only = False;
                 class_start = 0;
                 output = False;
+                
+
+                
+                
                 while(class_start != -1):
-                    class_start = phile.find(("." + classes + " "), class_start + 1)                
+                    class_start = phile.find((period_extra + classes + " "), class_start + 1)
+                    
+                    if(class_start == -1):
+                        break;
+                    
                     class_content_start = phile.find("{", class_start)
                     check_for_space_only = legitimate_class(phile,class_start)
                     if(check_for_space_only == True):
+
                         output = True;
                         class_end = phile.find("}", class_content_start)
                         timestamp = int(time.time())
-                        newclass = "." + str(classes) + str("_c_") + str(timestamp)
+                        newclass = period_extra + str(classes) + str("_c_") + str(timestamp)
 
                         content =  phile[class_content_start:class_end+1]
 
@@ -195,7 +210,7 @@ if __name__ == '__main__':
             
             search_point = start_point
             while(search_point < end_point):
-                new_class_begin = ceylon.find(".",search_point)
+                new_class_begin = ceylon.find(period_extra,search_point)
                 class_name_end = ceylon.find("_c_",new_class_begin)
 
                 check_next = ceylon[new_class_begin+1:new_class_begin+2] #check if its a class opposed to a number
