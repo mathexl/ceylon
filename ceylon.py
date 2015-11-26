@@ -89,11 +89,14 @@ if __name__ == '__main__':
         
         if(arguments['--add'] == True and len(classes) > 0):
 
-            if ("." + classes + " ") in open(f, 'r').read():
+            if ("." + classes) in open(f, 'r').read():
                 
                 phile = open(f, 'r').read()
 
                 class_start = phile.find(("." + classes + " "))
+                
+                print class_start #add check for .class{
+                
                 class_content_start = phile.find("{", class_start)
                 class_end = phile.find("}", class_content_start)
                 timestamp = int(time.time())
@@ -162,9 +165,9 @@ if __name__ == '__main__':
                 class_name = ceylon[new_class_begin:class_name_end]
                 
                 #print str(first_bracket) + " | " + str(end_bracket)
-                #print ceylon[new_class_begin:end_bracket+1]
+                new_class = class_name[1:] + " " + ceylon[first_bracket:end_bracket+1]
                 print "Rolled Back::" + str(class_name)
-                revert(f,class_name[1:],ceylon[new_class_begin:end_bracket+1])
+                revert(f,class_name[1:],new_class)
 
                 search_point = end_bracket
             
