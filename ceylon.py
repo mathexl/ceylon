@@ -3,12 +3,14 @@
 #Still a Work in Progress - feel free to hack around with it but DO NOT use in production YET. 
 #If you have any questions, feel free to contact Mathew Pregasen at mathexl@gmail.com
 
-# Docopt is a library for parsing command line arguments
 import sys
 import time
 
 global arguments
+global all_classes 
 
+
+#Valid arguments to add. 
 arguments = {};
 args_list = list();
 args_list = sys.argv;
@@ -23,6 +25,7 @@ arguments['--hash'] = None
 arguments['--file'] = None
 
 
+#check through arguments passed in to sort them. 
 for i in args_list:
     if(i == '--add'):
         arguments['--add'] = True
@@ -50,10 +53,10 @@ for i in args_list:
     if(i[0:7] == '--file='):
         arguments['--file'] = i[7:]  
 
-if(len(sys.argv) > 2):
-    global all_classes
-    all_classes = sys.argv[2]
-    all_classes = all_classes.split("/")
+
+if(len(sys.argv) > 2): #check if it is a class specific command
+    all_classes = sys.argv[2] #declare the class the secondone
+    all_classes = all_classes.split("/") #explode the string for classes in case multiple.
     
     
 if __name__ == '__main__':
@@ -267,72 +270,72 @@ if __name__ == '__main__':
 
                 search_point = end_bracket
 
-        
-        for classes in all_classes:
-            if(arguments['--add'] == True and len(classes) > 0):
-                if (classes) in open(f, 'r').read():
-                    phile = open(f, 'r').read()
-                    check_for_space_only = False;
-                    class_start = 0;
-                    output = False;
+        if(len(sys.argv) > 2):
+            for classes in all_classes:
+                if(arguments['--add'] == True and len(classes) > 0):
+                    if (classes) in open(f, 'r').read():
+                        phile = open(f, 'r').read()
+                        check_for_space_only = False;
+                        class_start = 0;
+                        output = False;
 
 
 
 
-                    while(class_start != -1):
-                        class_start = phile.find((period_extra + classes), class_start)
+                        while(class_start != -1):
+                            class_start = phile.find((period_extra + classes), class_start)
 
-                        if(class_start == -1):
-                            break;
+                            if(class_start == -1):
+                                break;
 
-                        class_content_start = phile.find("{", class_start)
-                        check_for_space_only = legitimate_class(phile,class_start)
-                        if(check_for_space_only == True):
+                            class_content_start = phile.find("{", class_start)
+                            check_for_space_only = legitimate_class(phile,class_start)
+                            if(check_for_space_only == True):
 
-                            output = True;
-                            class_end = phile.find("}", class_content_start)
-                            timestamp = int(time.time())
-                            newclass = period_extra + str(classes) + str("_c_") + str(timestamp)
+                                output = True;
+                                class_end = phile.find("}", class_content_start)
+                                timestamp = int(time.time())
+                                newclass = period_extra + str(classes) + str("_c_") + str(timestamp)
 
-                            content =  phile[class_content_start:class_end+1]
+                                content =  phile[class_content_start:class_end+1]
 
-                            complete_class = str(newclass) + " " + str(content)
+                                complete_class = str(newclass) + " " + str(content)
 
-                            if(period_extra == ""):
-                                complete_class = "[--tag]" + complete_class
+                                if(period_extra == ""):
+                                    complete_class = "[--tag]" + complete_class
 
-                            if(arguments['--version'] == None):
-                                ceylon = open('ceylon.css', 'a')
-                                ceylon.write("\n")
-                                ceylon.write("\n")
-                                ceylon.write(complete_class)
-                            else:
-                                ceylon = open('ceylon.css', 'r').read()
-                                insertion_point = ceylon.find("/**** END[" + str(arguments['--version']) + "]")
+                                if(arguments['--version'] == None):
+                                    ceylon = open('ceylon.css', 'a')
+                                    ceylon.write("\n")
+                                    ceylon.write("\n")
+                                    ceylon.write(complete_class)
+                                else:
+                                    ceylon = open('ceylon.css', 'r').read()
+                                    insertion_point = ceylon.find("/**** END[" + str(arguments['--version']) + "]")
 
-                                new_file = ceylon[0:insertion_point]
-                                new_ceylon = open('ceylon.css', 'w')
-                                new_ceylon.write(new_file)
-                                new_ceylon.close()
+                                    new_file = ceylon[0:insertion_point]
+                                    new_ceylon = open('ceylon.css', 'w')
+                                    new_ceylon.write(new_file)
+                                    new_ceylon.close()
 
-                                insert_ceylon = open('ceylon.css', 'a')
-                                insert_ceylon.write("\n")
-                                insert_ceylon.write("\n")
-                                insert_ceylon.write(complete_class)
-                                insert_ceylon.write("\n")
-                                insert_ceylon.write("\n")
-                                insert_ceylon.write(ceylon[insertion_point:])
+                                    insert_ceylon = open('ceylon.css', 'a')
+                                    insert_ceylon.write("\n")
+                                    insert_ceylon.write("\n")
+                                    insert_ceylon.write(complete_class)
+                                    insert_ceylon.write("\n")
+                                    insert_ceylon.write("\n")
+                                    insert_ceylon.write(ceylon[insertion_point:])
 
-                            print("Version Saved::" + str(classes) + "::" + str(timestamp))
-                        class_start = class_start + 1
-                    if(output == False):
-                        print("Error::Cannot Find Class")
+                                print("Version Saved::" + str(classes) + "::" + str(timestamp))
+                            class_start = class_start + 1
+                        if(output == False):
+                            print("Error::Cannot Find Class")
 
 
-            if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
-                rev = revert(f,classes)
-                if(rev == True):
-                    print("Reverted::" + str(classes))
+                if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
+                    rev = revert(f,classes)
+                    if(rev == True):
+                        print("Reverted::" + str(classes))
 
 
         
