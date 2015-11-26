@@ -46,7 +46,26 @@ In the saved ```ceylon.css``` file, you will see the following class:
 }
 ```
 
-Where TIMESTAMP would just be the UNIX timestamp when the class was created.
+Where TIMESTAMP would just be the UNIX timestamp when the class was created.  You can also save multiple classes at once if you seperate each class with a `/`.  So, if you had the following classes:
+
+```CSS
+.orange {
+    color:orange;
+    position:relative;
+    width:100%;
+}
+
+.apple {
+    color:red;
+    position:relative;
+    width:100%;
+}
+```
+
+You can save both at once by doing: 
+```
+python ceylon.py --add orange/apple --file=home.css
+```
 
 You can also save native tags too, i.e. styling of `<a></a>` tags but you need to let Ceylon know that's the case.  Simply add the `--tag` flag for it to work, so to edit `<hr></hr>` we would go (assuming the file is `style.css`:
 
@@ -54,6 +73,7 @@ You can also save native tags too, i.e. styling of `<a></a>` tags but you need t
 ```
 python ceylon.py --add hr --file=home.css --tag
 ```
+If you want to save both tags and classes, you must do them in two steps grouping the tags and classes seperately.  Otherwise, it will interpret orange is a native tag, not a class in the previous example. 
 
 ### Roll Back to the Last Version of the Class
 

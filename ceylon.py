@@ -51,9 +51,9 @@ for i in args_list:
         arguments['--file'] = i[7:]  
 
 if(len(sys.argv) > 2):
-    global classes
-    classes = sys.argv[2]
-
+    global all_classes
+    all_classes = sys.argv[2]
+    all_classes = all_classes.split("/")
     
     
 if __name__ == '__main__':
@@ -183,151 +183,152 @@ if __name__ == '__main__':
             print("Version Created::" +  str(version_name))
         
 
-        
-        if(arguments['--add'] == True and len(classes) > 0):
-            if (classes) in open(f, 'r').read():
-                phile = open(f, 'r').read()
-                check_for_space_only = False;
-                class_start = 0;
-                output = False;
-                
-
-                
-                
-                while(class_start != -1):
-                    class_start = phile.find((period_extra + classes), class_start)
-
-                    if(class_start == -1):
-                        break;
-                    
-                    class_content_start = phile.find("{", class_start)
-                    check_for_space_only = legitimate_class(phile,class_start)
-                    if(check_for_space_only == True):
-
-                        output = True;
-                        class_end = phile.find("}", class_content_start)
-                        timestamp = int(time.time())
-                        newclass = period_extra + str(classes) + str("_c_") + str(timestamp)
-
-                        content =  phile[class_content_start:class_end+1]
-
-                        complete_class = str(newclass) + " " + str(content)
-                        
-                        if(period_extra == ""):
-                            complete_class = "[--tag]" + complete_class
-
-                        if(arguments['--version'] == None):
-                            ceylon = open('ceylon.css', 'a')
-                            ceylon.write("\n")
-                            ceylon.write("\n")
-                            ceylon.write(complete_class)
-                        else:
-                            ceylon = open('ceylon.css', 'r').read()
-                            insertion_point = ceylon.find("/**** END[" + str(arguments['--version']) + "]")
-
-                            new_file = ceylon[0:insertion_point]
-                            new_ceylon = open('ceylon.css', 'w')
-                            new_ceylon.write(new_file)
-                            new_ceylon.close()
-
-                            insert_ceylon = open('ceylon.css', 'a')
-                            insert_ceylon.write("\n")
-                            insert_ceylon.write("\n")
-                            insert_ceylon.write(complete_class)
-                            insert_ceylon.write("\n")
-                            insert_ceylon.write("\n")
-                            insert_ceylon.write(ceylon[insertion_point:])
-                    
-                        print("Version Saved::" + str(timestamp))
-                    class_start = class_start + 1
-                if(output == False):
-                    print("Error::Cannot Find Class")
-
         if(arguments['--rollback'] != None):
             ceylon = open('ceylon.css', 'r').read()
             start_point = ceylon.find("/**** [" + str(arguments['--rollback']) + "]")
             end_point = ceylon.find("/**** END[" + str(arguments['--rollback']) + "]")
-            
-            
-            
+
+
+
             search_point = start_point
             while(search_point < end_point):
                 new_class_begin = ceylon.find(".",search_point)
-                
+
                 if(new_class_begin == -1): #no more classes exist
                     search_point = end_point
                     break
-                    
+
                 class_name_end = ceylon.find("_c_",new_class_begin)
 
                 check_next = ceylon[new_class_begin+1:new_class_begin+2] #check if its a class opposed to a number
 
 
-                    
+
                 if(new_class_begin > end_point): #past the ending point
                     search_point = end_point
                     break
-                
+
                 if(check_next.isalpha() == False): 
                     continue #skip if its a nonclass but an int
-                
 
-            
+
+
                 first_bracket = ceylon.find("{",new_class_begin)
                 end_bracket = ceylon.find("}",first_bracket+1)
 
                 class_name = ceylon[new_class_begin:class_name_end]
-                
+
                 #print str(first_bracket) + " | " + str(end_bracket)
                 new_class = class_name + " " + ceylon[first_bracket:end_bracket+1]
                 print("Rolled Back::" + str(class_name))
                 revert(f,class_name[1:],new_class)
 
                 search_point = end_bracket
-            
+
             #new look checking for attributes
             ceylon = open('ceylon.css', 'r').read()
             start_point = ceylon.find("/**** [" + str(arguments['--rollback']) + "]")
             end_point = ceylon.find("/**** END[" + str(arguments['--rollback']) + "]")
-            
-            
-    
+
+
+
             search_point = start_point
             period_extra = ""
             while(search_point < end_point):
                 new_class_begin = ceylon.find("[--tag]",search_point)
-                
+
                 if(new_class_begin == -1): #no more classes exist
                     search_point = end_point
                     break
-                    
+
                 class_name_end = ceylon.find("_c_",new_class_begin)
 
                 check_next = ceylon[new_class_begin+1:new_class_begin+2] #check if its a class opposed to a number
 
 
-                    
+
                 if(new_class_begin > end_point): #past the ending point
                     search_point = end_point
                     break
-                
 
-            
+
+
                 first_bracket = ceylon.find("{",new_class_begin)
                 end_bracket = ceylon.find("}",first_bracket+1)
 
                 class_name = ceylon[new_class_begin + 7:class_name_end]
-                
+
                 #print str(first_bracket) + " | " + str(end_bracket)
                 new_class = class_name + " " + ceylon[first_bracket:end_bracket+1]
                 print("Rolled Back::" + str(class_name))
                 revert(f,class_name,new_class)
 
                 search_point = end_bracket
-                
-                
-        if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
-            revert(f,classes)
+
+        
+        for classes in all_classes:
+            if(arguments['--add'] == True and len(classes) > 0):
+                if (classes) in open(f, 'r').read():
+                    phile = open(f, 'r').read()
+                    check_for_space_only = False;
+                    class_start = 0;
+                    output = False;
+
+
+
+
+                    while(class_start != -1):
+                        class_start = phile.find((period_extra + classes), class_start)
+
+                        if(class_start == -1):
+                            break;
+
+                        class_content_start = phile.find("{", class_start)
+                        check_for_space_only = legitimate_class(phile,class_start)
+                        if(check_for_space_only == True):
+
+                            output = True;
+                            class_end = phile.find("}", class_content_start)
+                            timestamp = int(time.time())
+                            newclass = period_extra + str(classes) + str("_c_") + str(timestamp)
+
+                            content =  phile[class_content_start:class_end+1]
+
+                            complete_class = str(newclass) + " " + str(content)
+
+                            if(period_extra == ""):
+                                complete_class = "[--tag]" + complete_class
+
+                            if(arguments['--version'] == None):
+                                ceylon = open('ceylon.css', 'a')
+                                ceylon.write("\n")
+                                ceylon.write("\n")
+                                ceylon.write(complete_class)
+                            else:
+                                ceylon = open('ceylon.css', 'r').read()
+                                insertion_point = ceylon.find("/**** END[" + str(arguments['--version']) + "]")
+
+                                new_file = ceylon[0:insertion_point]
+                                new_ceylon = open('ceylon.css', 'w')
+                                new_ceylon.write(new_file)
+                                new_ceylon.close()
+
+                                insert_ceylon = open('ceylon.css', 'a')
+                                insert_ceylon.write("\n")
+                                insert_ceylon.write("\n")
+                                insert_ceylon.write(complete_class)
+                                insert_ceylon.write("\n")
+                                insert_ceylon.write("\n")
+                                insert_ceylon.write(ceylon[insertion_point:])
+
+                            print("Version Saved::" + str(classes) + "::" + str(timestamp))
+                        class_start = class_start + 1
+                    if(output == False):
+                        print("Error::Cannot Find Class")
+
+
+            if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
+                revert(f,classes)
 
 
         
