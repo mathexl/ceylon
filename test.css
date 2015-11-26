@@ -1,5 +1,5 @@
 
-lemon {
+.lemon {
     color:yellow;
     position:relative;
     width:100%;
@@ -7,7 +7,7 @@ lemon {
     test_control
 }
 
-orange {
+.orange {
     color:orange;
     test_control
 }

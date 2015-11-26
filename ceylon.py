@@ -93,11 +93,11 @@ if __name__ == '__main__':
                 
                 phile = open(f, 'r').read()
 
-                class_start = phile.find(("." + classes + " "))
-                
-                print class_start #add check for .class{
-                
+                class_start = phile.find(("." + classes + " "))                
                 class_content_start = phile.find("{", class_start)
+                
+                print phile[class_start + len(classes):class_content_start]
+                
                 class_end = phile.find("}", class_content_start)
                 timestamp = int(time.time())
                 newclass = "." + str(classes) + str("_c_") + str(timestamp)
@@ -165,7 +165,7 @@ if __name__ == '__main__':
                 class_name = ceylon[new_class_begin:class_name_end]
                 
                 #print str(first_bracket) + " | " + str(end_bracket)
-                new_class = class_name[1:] + " " + ceylon[first_bracket:end_bracket+1]
+                new_class = class_name + " " + ceylon[first_bracket:end_bracket+1]
                 print "Rolled Back::" + str(class_name)
                 revert(f,class_name[1:],new_class)
 
