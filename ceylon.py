@@ -92,45 +92,51 @@ if __name__ == '__main__':
             if ("." + classes) in open(f, 'r').read():
                 
                 phile = open(f, 'r').read()
+                
+                check_for_space_only = False;
+                class_start = 0;
+                output = False;
+                while(class_start != -1):
+                    class_start = phile.find(("." + classes + " "), class_start + 1)                
+                    class_content_start = phile.find("{", class_start)
+                    check_for_space_only = (phile[class_start + len(classes) + 1:class_content_start]).isspace()
+                
+                    if(check_for_space_only == True):
+                        output = True;
+                        class_end = phile.find("}", class_content_start)
+                        timestamp = int(time.time())
+                        newclass = "." + str(classes) + str("_c_") + str(timestamp)
 
-                class_start = phile.find(("." + classes + " "))                
-                class_content_start = phile.find("{", class_start)
-                
-                print phile[class_start + len(classes):class_content_start]
-                
-                class_end = phile.find("}", class_content_start)
-                timestamp = int(time.time())
-                newclass = "." + str(classes) + str("_c_") + str(timestamp)
-                
-                content =  phile[class_content_start:class_end+1]
-                
-                complete_class = str(newclass) + " " + str(content)
-                
-                
-                if(arguments['--version'] == None):
-                    ceylon = open('ceylon.css', 'a')
-                    ceylon.write("\n")
-                    ceylon.write("\n")
-                    ceylon.write(complete_class)
-                else:
-                    ceylon = open('ceylon.css', 'r').read()
-                    insertion_point = ceylon.find("/**** END[" + str(arguments['--version']) + "]")
+                        content =  phile[class_content_start:class_end+1]
+
+                        complete_class = str(newclass) + " " + str(content)
+                        
+
+                        if(arguments['--version'] == None):
+                            ceylon = open('ceylon.css', 'a')
+                            ceylon.write("\n")
+                            ceylon.write("\n")
+                            ceylon.write(complete_class)
+                        else:
+                            ceylon = open('ceylon.css', 'r').read()
+                            insertion_point = ceylon.find("/**** END[" + str(arguments['--version']) + "]")
+
+                            new_file = ceylon[0:insertion_point]
+                            new_ceylon = open('ceylon.css', 'w')
+                            new_ceylon.write(new_file)
+                            new_ceylon.close()
+
+                            insert_ceylon = open('ceylon.css', 'a')
+                            insert_ceylon.write("\n")
+                            insert_ceylon.write("\n")
+                            insert_ceylon.write(complete_class)
+                            insert_ceylon.write("\n")
+                            insert_ceylon.write("\n")
+                            insert_ceylon.write(ceylon[insertion_point:])
                     
-                    new_file = ceylon[0:insertion_point]
-                    new_ceylon = open('ceylon.css', 'w')
-                    new_ceylon.write(new_file)
-                    new_ceylon.close()
-                    
-                    insert_ceylon = open('ceylon.css', 'a')
-                    insert_ceylon.write("\n")
-                    insert_ceylon.write("\n")
-                    insert_ceylon.write(complete_class)
-                    insert_ceylon.write("\n")
-                    insert_ceylon.write("\n")
-                    insert_ceylon.write(ceylon[insertion_point:])
-                    
-            
-                print "Version Saved::" + str(timestamp)
+                        print "Version Saved::" + str(timestamp)
+                if(output == False):
+                    print "Error::Cannot Find Class"
 
         if(arguments['--rollback'] != None):
             ceylon = open('ceylon.css', 'r').read()
