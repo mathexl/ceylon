@@ -55,7 +55,11 @@ if __name__ == '__main__':
             
             #checks if there are any selectors ahead of class
             
-            if(file_string[find_next_space:class_content_start].isspace() == False and find_next_space != -1):
+            #print "in here" 
+            #print find_next_space
+            #print class_content_start
+
+            if(file_string[find_next_space:class_content_start].isspace() == False and find_next_space != -1 and find_next_space < class_content_start):
                 return False;
             
 
@@ -147,7 +151,6 @@ if __name__ == '__main__':
         if(arguments['--add'] == True and len(classes) > 0):
             if (classes) in open(f, 'r').read():
                 phile = open(f, 'r').read()
-                
                 check_for_space_only = False;
                 class_start = 0;
                 output = False;
@@ -156,8 +159,8 @@ if __name__ == '__main__':
                 
                 
                 while(class_start != -1):
-                    class_start = phile.find((period_extra + classes + " "), class_start + 1)
-                    
+                    class_start = phile.find((period_extra + classes), class_start + 1)
+
                     if(class_start == -1):
                         break;
                     
