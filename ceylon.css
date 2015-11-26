@@ -174,3 +174,47 @@ hr_c_1448511489 {
 hr_c_1448511494 {
     color:blue;
 }
+
+/**** [new_test] ****/
+
+
+
+.lemon_c_1448511743 {
+    color:yellow;
+    position:relative;
+    width:100%;
+    background:none;
+    test_control
+    test_2
+
+}
+
+
+
+.orange_c_1448511748 {
+        color:orange;
+        test_control
+        test_2
+
+    }
+
+
+
+hr_c_1448511762 {
+    color:pink;
+    test_2
+}
+
+
+
+[--tag]hr_c_1448511969 {
+    color:pink;
+    
+}
+
+/**** END[new_test] ****/
+
+hr_c_1448512019 {
+    color:aqua;
+    
+}

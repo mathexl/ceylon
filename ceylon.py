@@ -177,6 +177,8 @@ if __name__ == '__main__':
 
                         complete_class = str(newclass) + " " + str(content)
                         
+                        if(period_extra == ""):
+                            complete_class = "[--tag]" + complete_class
 
                         if(arguments['--version'] == None):
                             ceylon = open('ceylon.css', 'a')

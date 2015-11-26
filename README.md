@@ -46,7 +46,15 @@ In the saved ```ceylon.css``` file, you will see the following class:
     background:none;
 }
 ```
-Where TIMESTAMP would just be the UNIX timestamp when the class was created. 
+
+Where TIMESTAMP would just be the UNIX timestamp when the class was created.
+
+You can also save native tags too, i.e. styling of `<a></a>` tags but you need to let Ceylon know that's the case.  Simply add the `--tag` flag for it to work, so to edit `<hr></hr>` we would go (assuming the file is `style.css`:
+
+
+```
+python ceylon.py --add hr --file=home.css --tag
+```
 
 ### Roll Back to the Last Version of the Class
 
@@ -67,7 +75,7 @@ To rollback to a specific version, you can state the timestamp it was created in
 python ceylon.py --revert-nosave --version=TIMESTAMP cool_class --file=home.css
 ```
 
-Obviously, finding out the version can be a bit of a pain, so instead check out the next section:
+Use `--tag` again for a native tag.  Obviously, finding out the version can be a bit of a pain, so instead check out the next section:
 
 ### Create Static Versions of Multiple Classes
 
