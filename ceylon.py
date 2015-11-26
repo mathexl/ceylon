@@ -89,11 +89,11 @@ if __name__ == '__main__':
         
         if(arguments['--add'] == True and len(classes) > 0):
 
-            if ("." + classes) in open(f, 'r').read():
+            if ("." + classes + " ") in open(f, 'r').read():
                 
                 phile = open(f, 'r').read()
 
-                class_start = phile.find(("." + classes))
+                class_start = phile.find(("." + classes + " "))
                 class_content_start = phile.find("{", class_start)
                 class_end = phile.find("}", class_content_start)
                 timestamp = int(time.time())
