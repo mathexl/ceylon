@@ -11,6 +11,10 @@ Options:
     --revert-nosave  go back a version and don't save current version.
 """
 
+#Ceylon is micro version control
+#Still a Work in Progress - feel free to hack around with it but DO NOT use in production YET. 
+#If you have any questions, feel free to contact Mathew Pregasen at mathexl@gmail.com
+
 # Docopt is a library for parsing command line arguments
 import docopt
 import time
@@ -19,6 +23,7 @@ if __name__ == '__main__':
 
     try:
         # Parse arguments, use file docstring as a parameter definition
+        global arguments
         arguments = docopt.docopt(__doc__)
         
         
@@ -94,18 +99,29 @@ if __name__ == '__main__':
             search_point = start_point
             while(search_point < end_point):
                 new_class_begin = ceylon.find(".",search_point)
+                class_name_end = ceylon.find("_c_",new_class_begin)
+
                 check_next = ceylon[new_class_begin+1:new_class_begin+2] #check if its a class opposed to a number
+
+                if(new_class_begin == -1): #no more classes exist
+                    search_point = end_point
+                    break
                 
-                if(check_next.isalpha() == False):
+                if(check_next.isalpha() == False): 
                     continue #skip if its a nonclass but an int
                 
-                if(new_class_begin == -1):
-                    search_point = end_point
-                    continue
-                else:
-                    search_point = new_class_begin + 1
+
             
-            
+                first_bracket = ceylon.find("{",new_class_begin)
+                end_bracket = ceylon.find("}",first_bracket+1)
+
+                class_name = ceylon[new_class_begin:class_name_end]
+                
+                print str(first_bracket) + " | " + str(end_bracket)
+                print ceylon[new_class_begin:end_bracket+1]
+                print "Rolled Back::" + str(class_name)
+                
+                search_point = end_bracket
             
 
                 
@@ -117,7 +133,6 @@ if __name__ == '__main__':
                 
                 
                 phile = open(f, 'r').read()
-
                 class_start = phile.find(("." + classes))
                 class_content_start = phile.find("{", class_start)
                 class_end = phile.find("}", class_content_start)
@@ -149,7 +164,41 @@ if __name__ == '__main__':
                     ceylon.write("\n")
                     ceylon.write(complete_class)
 
+        def revert(f,classes):
+            if(len(f) == 0):
+                f = "style.css"
+            if ("." + classes) in open(f, 'r').read():
+                phile = open(f, 'r').read()
+                class_start = phile.find(("." + classes))
+                class_content_start = phile.find("{", class_start)
+                class_end = phile.find("}", class_content_start)
+                timestamp = int(time.time())
+                newclass = "." + str(classes) + str("_c_") + str(timestamp)
+                content =  phile[class_content_start:class_end+1]
+                complete_class = str(newclass) + " " + str(content)
+                
+                ceylon = open('ceylon.css', 'r').read()
+                
+                if(arguments['--hash'] == None):
+                    cey_class_start = ceylon.rfind(("." + classes + "_c_"))
+                else:
+                    cey_class_start = ceylon.find(("." + classes + "_c_" + str(arguments['--hash'])))
 
+                cey_class_content_start = ceylon.find("{", cey_class_start)
+                cey_class_end = ceylon.find("}", cey_class_content_start)
+                cey_content =  ceylon[cey_class_content_start:cey_class_end+1]
+                
+                rc = "." + str(classes) + cey_content
+                new_replacement_file = phile[0:class_start] + rc + phile[class_end+1:len(phile)]
+                
+                
+                replace = open(f, 'w')
+                replace.write(new_replacement_file)
+                if(arguments['--revert'] == True):
+                    ceylon = open('ceylon.css', 'a')
+                    ceylon.write("\n")
+                    ceylon.write("\n")
+                    ceylon.write(complete_class)
         
         key = ''
                 
