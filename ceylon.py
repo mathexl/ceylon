@@ -3,6 +3,9 @@
 #Still a Work in Progress - feel free to hack around with it but DO NOT use in production YET. 
 #If you have any questions, feel free to contact Mathew Pregasen at mathexl@gmail.com
 
+
+############################
+#Imports
 import sys
 import time
 
@@ -11,7 +14,8 @@ import time
 #Global Arguments 
 global arguments
 global all_classes 
-
+global f #file variable
+global flag #delineation of class, identifier, or native tag
 
 ############################
 #terminal colors below
@@ -80,21 +84,13 @@ if(len(sys.argv) > 2): #check if it is a class specific command
 def legitimate_class(file_string,location):
     class_content_start = file_string.find("{", location)
 
-    #print file_string[location:class_content_start]
     #check for the last preceding }
 
     find_next_space = file_string.find(' ',location)
     class_name = file_string[location:find_next_space]
-    #print class_name
-    #print class_content_start
-    #print file_string[find_next_space:class_content_start]
+
 
     #checks if there are any selectors ahead of class
-
-    #print "in here" 
-    #print find_next_space
-    #print class_content_start
-
 
     if(file_string[find_next_space:class_content_start].isspace() == False and find_next_space != -1 and find_next_space < class_content_start):
         return False;
@@ -104,9 +100,6 @@ def legitimate_class(file_string,location):
 
     if(find_last_bracket == -1):
         find_last_bracket = 0
-
-    #print find_last_bracket
-    #print location
 
     till_last_bracket = file_string[find_last_bracket+1:location] #checking for preceding selectors
 
@@ -118,11 +111,15 @@ def legitimate_class(file_string,location):
 
         if(file_string.rfind('}',0,location) != -1): #exclusion if */ or beginning 
             next_bracket = file_string.find("{", file_string.rfind('}',0,location))
-            if(next_bracket != class_content_start):
-                return True #checks for @media precedence
 
+            #############################
+            #checks for @media precedence
+            if(next_bracket != class_content_start):
+                return True 
+            #############################
+            
         find_last_comment = file_string.rfind('*/',0,location) #checking for in between comment
-        #print find_last_comment
+
         if(find_last_comment == -1):
             return False;
         till_last_comment = file_string[find_last_comment+2:location]
@@ -134,13 +131,13 @@ def legitimate_class(file_string,location):
     return True;
 
 def revert(f,classes,r_string = "False"):
-    if (period_extra + classes) in open(f, 'r').read():
+    if (flag + classes) in open(f, 'r').read():
         phile = open(f, 'r').read()
-        class_start = phile.find((period_extra + classes))
+        class_start = phile.find((flag + classes))
         class_content_start = phile.find("{", class_start)
         class_end = phile.find("}", class_content_start)
         timestamp = int(time.time())
-        newclass = period_extra + str(classes) + str("_c_") + str(timestamp)
+        newclass = flag + str(classes) + str("_c_") + str(timestamp)
         content =  phile[class_content_start:class_end+1]
         complete_class = str(newclass) + " " + str(content)
 
@@ -148,15 +145,15 @@ def revert(f,classes,r_string = "False"):
             ceylon = open('ceylon.css', 'r').read()
 
             if(arguments['--hash'] == None):
-                cey_class_start = ceylon.rfind((period_extra + classes + "_c_"))
+                cey_class_start = ceylon.rfind((flag + classes + "_c_"))
             else:
-                cey_class_start = ceylon.find((period_extra + classes + "_c_" + str(arguments['--hash'])))
+                cey_class_start = ceylon.find((flag + classes + "_c_" + str(arguments['--hash'])))
 
             cey_class_content_start = ceylon.find("{", cey_class_start)
             cey_class_end = ceylon.find("}", cey_class_content_start)
             cey_content =  ceylon[cey_class_content_start:cey_class_end+1]
 
-            rc = period_extra + str(classes) + cey_content
+            rc = flag + str(classes) + cey_content
         else:
             rc = r_string
 
@@ -173,13 +170,11 @@ def revert(f,classes,r_string = "False"):
 
         return True;    
 
-############################  [MAIN]  #####################################
+#################################  [MAIN]  #####################################
 if __name__ == '__main__':
 
     try:
-        # Parse arguments, use file docstring as a parameter definition
-        global f
-        global period_extra
+
 
         
         f = arguments['--file']
@@ -189,9 +184,9 @@ if __name__ == '__main__':
         
         
         if(arguments['--tag'] == True):
-            period_extra = ""
+            flag = ""
         else:
-            period_extra = "."
+            flag = "."
             
         
         
@@ -258,7 +253,7 @@ if __name__ == '__main__':
 
 
             search_point = start_point
-            period_extra = ""
+            flag = ""
             while(search_point < end_point):
                 new_class_begin = ceylon.find("[--tag]",search_point)
 
@@ -303,7 +298,7 @@ if __name__ == '__main__':
 
 
                         while(class_start != -1):
-                            class_start = phile.find((period_extra + classes), class_start)
+                            class_start = phile.find((flag + classes), class_start)
 
                             if(class_start == -1):
                                 break;
@@ -315,13 +310,13 @@ if __name__ == '__main__':
                                 output = True;
                                 class_end = phile.find("}", class_content_start)
                                 timestamp = int(time.time())
-                                newclass = period_extra + str(classes) + str("_c_") + str(timestamp)
+                                newclass = flag + str(classes) + str("_c_") + str(timestamp)
 
                                 content =  phile[class_content_start:class_end+1]
 
                                 complete_class = str(newclass) + " " + str(content)
 
-                                if(period_extra == ""):
+                                if(flag == ""):
                                     complete_class = "[--tag]" + complete_class
 
                                 if(arguments['--version'] == None):
