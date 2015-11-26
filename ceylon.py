@@ -36,7 +36,22 @@ if __name__ == '__main__':
         def legitimate_class(file_string,location):
             class_content_start = file_string.find("{", location)
             #print file_string[location:class_content_start]
-            return (file_string[location:class_content_start].isspace())
+            
+            #check for the last preceding }
+            
+            find_next_space = file_string.find(' ',location)
+            class_name = file_string[location:find_next_space]
+            #print class_name
+            #print class_content_start
+            #print file_string[find_next_space:class_content_start]
+            
+            if(file_string[find_next_space:class_content_start].isspace() == False):
+                return False;
+            
+            
+            find_last_bracket = file_string.rfind('}',0,location)
+
+            return True;
         
         def revert(f,classes,r_string = "False"):
             if(len(str(f)) == 0):
@@ -104,7 +119,7 @@ if __name__ == '__main__':
                 while(class_start != -1):
                     class_start = phile.find(("." + classes + " "), class_start + 1)                
                     class_content_start = phile.find("{", class_start)
-                    check_for_space_only = legitimate_class(phile,class_start + len(classes) + 1)
+                    check_for_space_only = legitimate_class(phile,class_start)
                     if(check_for_space_only == True):
                         output = True;
                         class_end = phile.find("}", class_content_start)
