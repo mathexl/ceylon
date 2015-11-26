@@ -24,9 +24,9 @@ if __name__ == '__main__':
     try:
         # Parse arguments, use file docstring as a parameter definition
         global arguments
-        arguments = docopt.docopt(__doc__)
-        
         global f
+
+        arguments = docopt.docopt(__doc__)
         f = arguments['--file']
         if(len(f) == 0):
             f = "style.css"        
