@@ -64,6 +64,12 @@ if __name__ == '__main__':
             
             
             if(till_last_bracket.isspace() == False):
+                
+                if(file_string.rfind('}',0,location) != -1): 
+                    next_bracket = file_string.find("{", file_string.rfind('}',0,location))
+                    if(next_bracket != class_content_start):
+                        return True #checks for @media precedence
+                
                 find_last_comment = file_string.rfind('*/',0,location) #checking for in between comment
                 #print find_last_comment
                 if(find_last_comment == -1):

@@ -11,10 +11,8 @@
     test_control
 }
 
-.orange {
-    color:orange;
-    test_control
-}
+
+
 
 .grape .tangerine {
     color:black;
@@ -24,3 +22,10 @@
     color:black;
 }
 
+
+@media screen and (max-width:500px){
+    .orange {
+        color:orange;
+        test_control
+    }
+}
