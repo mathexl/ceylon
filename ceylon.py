@@ -10,6 +10,16 @@ global arguments
 global all_classes 
 
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[90m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 #Valid arguments to add. 
 arguments = {};
 args_list = list();
@@ -185,7 +195,7 @@ if __name__ == '__main__':
             ceylon.write("\n")
             ceylon.write("/**** END[" + str(version_name) + "] ****/")
 
-            print("Version Created::" +  str(version_name))
+            print(bcolors.WARNING + "Version Created" + bcolors.ENDC + "::" + bcolors.OKBLUE + str(version_name) + bcolors.ENDC)
         
 
         if(arguments['--rollback'] != None):
@@ -225,7 +235,7 @@ if __name__ == '__main__':
 
                 #print str(first_bracket) + " | " + str(end_bracket)
                 new_class = class_name + " " + ceylon[first_bracket:end_bracket+1]
-                print("Rolled Back::" + str(class_name))
+                print(bcolors.WARNING + "Reverted" + bcolors.ENDC + "::" + bcolors.OKBLUE + str(class_name) + bcolors.ENDC)
                 revert(f,class_name[1:],new_class)
 
                 search_point = end_bracket
@@ -265,7 +275,7 @@ if __name__ == '__main__':
 
                 #print str(first_bracket) + " | " + str(end_bracket)
                 new_class = class_name + " " + ceylon[first_bracket:end_bracket+1]
-                print("Rolled Back::" + str(class_name))
+
                 revert(f,class_name,new_class)
 
                 search_point = end_bracket
@@ -326,7 +336,7 @@ if __name__ == '__main__':
                                     insert_ceylon.write("\n")
                                     insert_ceylon.write(ceylon[insertion_point:])
 
-                                print("Version Saved::" + str(classes) + "::" + str(timestamp))
+                                print(bcolors.WARNING + "Version Saved" + bcolors.ENDC + "::" + bcolors.OKBLUE + str(classes) + bcolors.ENDC + "::" + bcolors.HEADER + str(timestamp) + bcolors.ENDC)
                             class_start = class_start + 1
                         if(output == False):
                             print("Error::Cannot Find Class")
@@ -335,7 +345,7 @@ if __name__ == '__main__':
                 if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
                     rev = revert(f,classes)
                     if(rev == True):
-                        print("Reverted::" + str(classes))
+                        print(bcolors.WARNING + "Reverted" + bcolors.ENDC + "::" + bcolors.OKBLUE + str(classes) + bcolors.ENDC)
 
 
         
