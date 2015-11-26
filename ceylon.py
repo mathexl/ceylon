@@ -132,7 +132,7 @@ if __name__ == '__main__':
             ceylon.write("\n")
             ceylon.write("/**** END[" + str(version_name) + "] ****/")
 
-            print "Version Created::" +  str(version_name)
+            print("Version Created::" +  str(version_name))
         
 
         
@@ -182,9 +182,9 @@ if __name__ == '__main__':
                             insert_ceylon.write("\n")
                             insert_ceylon.write(ceylon[insertion_point:])
                     
-                        print "Version Saved::" + str(timestamp)
+                        print("Version Saved::" + str(timestamp))
                 if(output == False):
-                    print "Error::Cannot Find Class"
+                    print("Error::Cannot Find Class")
 
         if(arguments['--rollback'] != None):
             ceylon = open('ceylon.css', 'r').read()
@@ -220,7 +220,7 @@ if __name__ == '__main__':
                 
                 #print str(first_bracket) + " | " + str(end_bracket)
                 new_class = class_name + " " + ceylon[first_bracket:end_bracket+1]
-                print "Rolled Back::" + str(class_name)
+                print("Rolled Back::" + str(class_name))
                 revert(f,class_name[1:],new_class)
 
                 search_point = end_bracket
@@ -237,5 +237,5 @@ if __name__ == '__main__':
                 
                 
     except docopt.DocoptExit as e:
-        print e.message
+        print(e.message)
   
