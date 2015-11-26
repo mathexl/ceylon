@@ -50,7 +50,19 @@ if __name__ == '__main__':
             
 
             find_last_bracket = file_string.rfind('}',0,location)
+            
+            if(find_last_bracket == -1):
+                find_last_bracket = 0
+            
+            #print find_last_bracket
+            #print location
+            
             till_last_bracket = file_string[find_last_bracket+1:location] #checking for preceding selectors
+            
+            if(till_last_bracket == ''):
+                return True;
+            
+            
             if(till_last_bracket.isspace() == False):
                 find_last_comment = file_string.rfind('*/',0,location) #checking for in between comment
                 #print find_last_comment
