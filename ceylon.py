@@ -36,7 +36,6 @@ if __name__ == '__main__':
         def legitimate_class(file_string,location):
             class_content_start = file_string.find("{", location)
             #print file_string[location:class_content_start]
-            
             #check for the last preceding }
             
             find_next_space = file_string.find(' ',location)
@@ -45,12 +44,16 @@ if __name__ == '__main__':
             #print class_content_start
             #print file_string[find_next_space:class_content_start]
             
+            #checks if there are any selectors ahead of class
             if(file_string[find_next_space:class_content_start].isspace() == False):
                 return False;
             
-            
-            find_last_bracket = file_string.rfind('}',0,location)
 
+            find_last_bracket = file_string.rfind('}',0,location)
+            till_last_bracket = file_string[find_last_bracket+1:location] #checking for preceding selectors
+            if(till_last_bracket.isspace() == False):
+                return False;
+            
             return True;
         
         def revert(f,classes,r_string = "False"):

@@ -12,6 +12,9 @@
     test_control
 }
 
+.grape .tangerine {
+    color:black;
+}
 
 .tangerine .grape {
     color:black;
