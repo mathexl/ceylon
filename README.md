@@ -69,7 +69,7 @@ python ceylon.py --revert-nosave --version=TIMESTAMP cool_class --file=home.css
 
 Obviously, finding out the version can be a bit of a pain, so instead check out the next section:
 
-### Create Static Versions
+### Create Static Versions of Multiple Classes
 
 Sometimes when you are trying new styles, you are adding consistent changes and new looks to multiple elements.  Ceylon has static versioning to adapt to that. You can declare a version that is composite of a group of classes which can be added at different points of time and later rollback to that complete version of the file.  To create a version, simply call `--create=YOUR_VERSION_NAME` in terminal, with YOUR_VERSION_NAME being the static version (one word).  So (assuming you are working within `style.css` this time):
 
@@ -98,7 +98,7 @@ In the Ceylon.css file, we will see all the versions grouped together with somet
 /**** END[old_metro_style] ****/
 
 ```
-To rollback to a version, simply use the `--rollback=YOUR_VERSION` function.  For instance, to rollback to our last state: 
+Remember, you can add to a version whenever, so it completely obfuscates the linear flow.  To rollback to a version, simply use the `--rollback=YOUR_VERSION` function.  For instance, to rollback to our last state: 
 
 ```
 python ceylon.py --rollback=old_metro_style

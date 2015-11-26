@@ -26,7 +26,10 @@ if __name__ == '__main__':
         global arguments
         arguments = docopt.docopt(__doc__)
         
-        
+        global f
+        f = arguments['--file']
+        if(len(f) == 0):
+            f = "style.css"        
         
         classes = arguments['CLASS']
 
@@ -82,8 +85,6 @@ if __name__ == '__main__':
 
             print "Version Created::" +  str(version_name)
         
-        
-        f = arguments['--file']
 
         
         if(arguments['--add'] == True and len(classes) > 0):
