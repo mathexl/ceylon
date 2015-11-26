@@ -168,7 +168,9 @@ if __name__ == '__main__':
                     ceylon = open('ceylon.css', 'a')
                     ceylon.write("\n")
                     ceylon.write("\n")
-                    ceylon.write(complete_class)        
+                    ceylon.write(complete_class)    
+                
+                return True;
         
         if(arguments['--create'] != None):
             version_name = arguments['--create']
@@ -328,7 +330,9 @@ if __name__ == '__main__':
 
 
             if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
-                revert(f,classes)
+                rev = revert(f,classes)
+                if(rev == True):
+                    print("Reverted::" + str(classes))
 
 
         
