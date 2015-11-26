@@ -19,7 +19,7 @@ Ceylon currently is built on the `docopt` module (however, there is a module fre
 By default, Ceylon assumes the file that it is operating on is named `style.css`.  However, you may have other .css files to edit.  To declare the file you are working on, simply go `--file=your_css_file.css`
 
 ### Saving A Version of a Class
-Ceylon saves all its data in a file called `ceylon.css`.  You can see all the saved versions in that file.  To save a state of a version in general, simply call `--add` function and then pass in the name of the CSS class.  For instance, if I had the class in the file `home.css`: 
+Ceylon saves all its data in a file called `ceylon.css`.  You can see all the saved versions in that file.  To save a state of a version in general, simply call `--add` function and then pass in the name of the CSS class.  For instance, if you had the class in the file `home.css`: 
 
 ```CSS
 .cool_class{
