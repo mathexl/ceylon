@@ -65,7 +65,7 @@ if __name__ == '__main__':
             
             if(till_last_bracket.isspace() == False):
                 
-                if(file_string.rfind('}',0,location) != -1): 
+                if(file_string.rfind('}',0,location) != -1): #exclusion if */ or beginning 
                     next_bracket = file_string.find("{", file_string.rfind('}',0,location))
                     if(next_bracket != class_content_start):
                         return True #checks for @media precedence
