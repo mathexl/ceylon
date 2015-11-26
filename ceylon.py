@@ -29,6 +29,46 @@ if __name__ == '__main__':
         
         
         classes = arguments['CLASS']
+
+        def revert(f,classes,r_string = "False"):
+            if(len(str(f)) == 0):
+                f = "style.css"
+            if ("." + classes) in open(f, 'r').read():
+                phile = open(f, 'r').read()
+                class_start = phile.find(("." + classes))
+                class_content_start = phile.find("{", class_start)
+                class_end = phile.find("}", class_content_start)
+                timestamp = int(time.time())
+                newclass = "." + str(classes) + str("_c_") + str(timestamp)
+                content =  phile[class_content_start:class_end+1]
+                complete_class = str(newclass) + " " + str(content)
+                
+                if(r_string == "False"):
+                    ceylon = open('ceylon.css', 'r').read()
+
+                    if(arguments['--hash'] == None):
+                        cey_class_start = ceylon.rfind(("." + classes + "_c_"))
+                    else:
+                        cey_class_start = ceylon.find(("." + classes + "_c_" + str(arguments['--hash'])))
+
+                    cey_class_content_start = ceylon.find("{", cey_class_start)
+                    cey_class_end = ceylon.find("}", cey_class_content_start)
+                    cey_content =  ceylon[cey_class_content_start:cey_class_end+1]
+
+                    rc = "." + str(classes) + cey_content
+                else:
+                    rc = r_string
+                    
+                #print rc
+                new_replacement_file = phile[0:class_start] + rc + phile[class_end+1:len(phile)]
+                replace = open(f, 'w')
+                replace.write(new_replacement_file)
+                
+                if(arguments['--revert'] == True):
+                    ceylon = open('ceylon.css', 'a')
+                    ceylon.write("\n")
+                    ceylon.write("\n")
+                    ceylon.write(complete_class)        
         
         if(arguments['--create'] != None):
             version_name = arguments['--create']
@@ -106,6 +146,10 @@ if __name__ == '__main__':
                 if(new_class_begin == -1): #no more classes exist
                     search_point = end_point
                     break
+                    
+                if(new_class_begin > end_point): #past the ending point
+                    search_point = end_point
+                    break
                 
                 if(check_next.isalpha() == False): 
                     continue #skip if its a nonclass but an int
@@ -117,88 +161,20 @@ if __name__ == '__main__':
 
                 class_name = ceylon[new_class_begin:class_name_end]
                 
-                print str(first_bracket) + " | " + str(end_bracket)
-                print ceylon[new_class_begin:end_bracket+1]
+                #print str(first_bracket) + " | " + str(end_bracket)
+                #print ceylon[new_class_begin:end_bracket+1]
                 print "Rolled Back::" + str(class_name)
-                
+                revert(f,class_name[1:],ceylon[new_class_begin:end_bracket+1])
+
                 search_point = end_bracket
             
 
                 
                 
         if(arguments['--revert'] == True or arguments['--revert-nosave'] == True and len(classes) > 0):
-            if(len(f) == 0):
-                f = "style.css"
-            if ("." + classes) in open(f, 'r').read():
-                
-                
-                phile = open(f, 'r').read()
-                class_start = phile.find(("." + classes))
-                class_content_start = phile.find("{", class_start)
-                class_end = phile.find("}", class_content_start)
-                timestamp = int(time.time())
-                newclass = "." + str(classes) + str("_c_") + str(timestamp)
-                content =  phile[class_content_start:class_end+1]
-                complete_class = str(newclass) + " " + str(content)
-                
-                ceylon = open('ceylon.css', 'r').read()
-                
-                if(arguments['--hash'] == None):
-                    cey_class_start = ceylon.rfind(("." + classes + "_c_"))
-                else:
-                    cey_class_start = ceylon.find(("." + classes + "_c_" + str(arguments['--hash'])))
+            revert(f,classes)
 
-                cey_class_content_start = ceylon.find("{", cey_class_start)
-                cey_class_end = ceylon.find("}", cey_class_content_start)
-                cey_content =  ceylon[cey_class_content_start:cey_class_end+1]
-                
-                rc = "." + str(classes) + cey_content
-                new_replacement_file = phile[0:class_start] + rc + phile[class_end+1:len(phile)]
-                
-                
-                replace = open(f, 'w')
-                replace.write(new_replacement_file)
-                if(arguments['--revert'] == True):
-                    ceylon = open('ceylon.css', 'a')
-                    ceylon.write("\n")
-                    ceylon.write("\n")
-                    ceylon.write(complete_class)
 
-        def revert(f,classes):
-            if(len(f) == 0):
-                f = "style.css"
-            if ("." + classes) in open(f, 'r').read():
-                phile = open(f, 'r').read()
-                class_start = phile.find(("." + classes))
-                class_content_start = phile.find("{", class_start)
-                class_end = phile.find("}", class_content_start)
-                timestamp = int(time.time())
-                newclass = "." + str(classes) + str("_c_") + str(timestamp)
-                content =  phile[class_content_start:class_end+1]
-                complete_class = str(newclass) + " " + str(content)
-                
-                ceylon = open('ceylon.css', 'r').read()
-                
-                if(arguments['--hash'] == None):
-                    cey_class_start = ceylon.rfind(("." + classes + "_c_"))
-                else:
-                    cey_class_start = ceylon.find(("." + classes + "_c_" + str(arguments['--hash'])))
-
-                cey_class_content_start = ceylon.find("{", cey_class_start)
-                cey_class_end = ceylon.find("}", cey_class_content_start)
-                cey_content =  ceylon[cey_class_content_start:cey_class_end+1]
-                
-                rc = "." + str(classes) + cey_content
-                new_replacement_file = phile[0:class_start] + rc + phile[class_end+1:len(phile)]
-                
-                
-                replace = open(f, 'w')
-                replace.write(new_replacement_file)
-                if(arguments['--revert'] == True):
-                    ceylon = open('ceylon.css', 'a')
-                    ceylon.write("\n")
-                    ceylon.write("\n")
-                    ceylon.write(complete_class)
         
         key = ''
                 

@@ -98,3 +98,14 @@ In the Ceylon.css file, we will see all the versions grouped together with somet
 /**** END[old_metro_style] ****/
 
 ```
+To rollback to a version, simply use the `--rollback=YOUR_VERSION` function.  For instance, to rollback to our last state: 
+
+```
+python ceylon.py --rollback=old_metro_style
+```
+
+We will see the terminal print out all the classes affected by the Rollback: 
+
+```
+Rolled Back::.cool_class
+```
