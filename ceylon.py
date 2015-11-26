@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #Ceylon is micro version control
 #Still a Work in Progress - feel free to hack around with it but DO NOT use in production YET. 
 #If you have any questions, feel free to contact Mathew Pregasen at mathexl@gmail.com
