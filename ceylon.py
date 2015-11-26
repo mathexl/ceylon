@@ -54,6 +54,8 @@ if(len(sys.argv) > 2):
     global classes
     classes = sys.argv[2]
 
+    
+    
 if __name__ == '__main__':
 
     try:

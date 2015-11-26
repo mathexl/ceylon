@@ -29,7 +29,7 @@ Ceylon saves all its data in a file called `ceylon.css`.  You can see all the sa
 }
 ```
 
-You would call in terminal (order does not matter):
+You would call in terminal (while you need to state the action first and the class second, the order of the remaining tags does not matter):
 
 ```
 python ceylon.py --add cool_class --file=home.css
