@@ -33,6 +33,11 @@ if __name__ == '__main__':
         
         classes = arguments['CLASS']
 
+        def legitimate_class(file_string,location):
+            class_content_start = file_string.find("{", location)
+            #print file_string[location:class_content_start]
+            return (file_string[location:class_content_start].isspace())
+        
         def revert(f,classes,r_string = "False"):
             if(len(str(f)) == 0):
                 f = "style.css"
@@ -99,8 +104,7 @@ if __name__ == '__main__':
                 while(class_start != -1):
                     class_start = phile.find(("." + classes + " "), class_start + 1)                
                     class_content_start = phile.find("{", class_start)
-                    check_for_space_only = (phile[class_start + len(classes) + 1:class_content_start]).isspace()
-                
+                    check_for_space_only = legitimate_class(phile,class_start + len(classes) + 1)
                     if(check_for_space_only == True):
                         output = True;
                         class_end = phile.find("}", class_content_start)
