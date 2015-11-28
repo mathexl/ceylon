@@ -89,7 +89,7 @@ By doing this, your `home.css` file will be modified with the old version.  Furt
 python ceylon.py --revert-nosave cool_class --file=home.css
 ```
 
-To rollback to a specific version, you can state the timestamp it was created in using `--version=TIMESTAMP` (the timestamp is printed whenever you create a version).  Thus: 
+To rollback to a specific version, you can state the timestamp it was created in using `--version=TIMESTAMP` (the timestamp is printed whenever you create a version).  You can also do multiple classes at once using the same `/` divider.  Thus: 
 ```
 python ceylon.py --revert-nosave --version=TIMESTAMP cool_class --file=home.css
 ```
