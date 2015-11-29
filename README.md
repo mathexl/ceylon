@@ -1,4 +1,4 @@
-# ceylon (WIP)
+# ceylon (Work In Progress)
 Micro-Version Control for CSS.  
 
 ![Screenshot of Ceylon](img/cey2.png)
